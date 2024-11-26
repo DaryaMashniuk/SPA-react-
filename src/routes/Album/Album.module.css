@@ -1,0 +1,22 @@
+.album {
+    width:85%;
+    margin:0 auto;
+}
+h2 {
+    margin-top:90px;
+}
+.photosContainer {
+    
+    margin:0 auto;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.photoItem{
+    width:29%;
+    margin:2%;
+}
+.photoImage {
+    width:95%;
+    margin:auto;
+}

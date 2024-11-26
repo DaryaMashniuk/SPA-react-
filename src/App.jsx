@@ -1,33 +1,46 @@
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom";
-import React, { Suspense } from "react";
-import Layout from "./routes/Layout";
+import React from "react";
+import Layout from "./routes/Layout/Layout";
 import { userLoader, usersLoader, albumLoader, albumsLoader } from "./utils/loaders";
 import "./App.css";
-import NotFound from "./routes/NotFound";
-
+import ErrorComponent from "./components/ErrorComponent";
 const Albums = React.lazy(() => import("./routes/Albums"));
-const Album = React.lazy(() => import("./routes/Album"));
+const Album = React.lazy(() => import("./routes/Album/Album"));
 const Users = React.lazy(() => import("./routes/Users"));
 const User = React.lazy(() => import("./routes/User"));
+const NotFound = React.lazy(() => import("./routes/NotFound"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      <Route path="/" element={<Users />} loader={usersLoader} />
-      <Route path="/users/:id" element={<User />} loader={userLoader} />
-      <Route path="/albums" element={<Albums />} loader={albumsLoader} />
-      <Route path="/albums/:id" element={<Album />} loader={albumLoader} />
+    <Route
+      path="/"
+      element={
+        <React.Suspense fallback={<>...Loading</>}>
+          <Layout />
+        </React.Suspense>
+      }
+    >
+      <Route path="/" element={<Users />} loader={usersLoader} errorElement={<ErrorComponent />} />
+      <Route path="/users/:id" element={<User />} loader={userLoader} errorElement={<ErrorComponent />} />
+      <Route
+        path="/albums"
+        element={<Albums />}
+        loader={albumsLoader}
+        errorElement={<ErrorComponent retry={albumsLoader} />}
+      />
+      <Route
+        path="/albums/:id"
+        element={<Album />}
+        loader={albumLoader}
+        errorElement={<ErrorComponent retry={albumLoader} />}
+      />
       <Route path="*" element={<NotFound />} />
     </Route>
   )
 );
 
 function App() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <RouterProvider router={router} />
-    </Suspense>
-  );
+  return <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
 }
 
 export default App;

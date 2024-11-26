@@ -1,23 +1,19 @@
-import React , {useMemo} from "react";
-import { Link,useLoaderData } from "react-router-dom";
+import React, { useMemo, useEffect } from "react";
+import { Link, useLoaderData  } from "react-router-dom";
+import UsersList  from "../components/UsersList.jsx";
+const Users = React.memo(() => {
+  const { users } = useLoaderData();
+  useEffect(() => {
+    document.title = "Users";
+    window.scrollTo(0, 0);
+  }, []);
 
-
-const  Users = React.memo(()=> {
-  const {users} = useLoaderData();
-
-  const userList = useMemo(()=>{
-    return users.map((user)=> (
-      <Link key={user.id} to={`/users/${user.id}`}>
-          <div className="user">{user.name}</div>
-        </Link>
-    ))
-  },[users])
   return (
     <div>
       <h3>Users</h3>
-      {userList}
+      <UsersList users={users}/>
     </div>
   );
-})
+});
 
 export default Users;
