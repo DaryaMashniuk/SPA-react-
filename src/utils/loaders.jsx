@@ -1,4 +1,4 @@
-import { BASEURL , PER_PAGE} from "./CONSTANTS.JS";
+import { BASEURL , PER_PAGE} from "./CONSTANTS.js";
 
 export const albumsLoader = async () => {
   const albums =await fetch(`${BASEURL}albums`).then((responce) => responce.json());
