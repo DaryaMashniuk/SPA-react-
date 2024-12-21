@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "https://daryamashniuk.github.io/SPA-react-"
+  base: "https://daryamashniuk.github.io/SPA-react"
 })
